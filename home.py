@@ -1,11 +1,11 @@
 """
-Home.py - Lab 2 Evidence Exploration app.
+home.py - Lab 2 Evidence Exploration app.
 
 For each critical risk, an AI agent searches the ChromaDB evidence database
 with a search tool (function calling), looping until it has enough evidence.
 The findings are then combined into a due diligence report for the Board.
 
-Run with:  streamlit run Home.py
+Run with:  streamlit run home.py
 (Build the database first with:  python ingest.py)
 """
 
@@ -19,6 +19,8 @@ except ImportError:
 
 import json
 import os
+from datetime import datetime
+from pathlib import Path
 
 import chromadb
 import streamlit as st
@@ -29,12 +31,13 @@ from openai import OpenAI
 load_dotenv()
 
 # ---------- Settings ----------
-MODEL = "gpt-4.1"              # chat model; change to the model your course uses
+MODEL = "gpt-4o"              # chat model; change to the model your course uses
 EMBEDDING_MODEL = "text-embedding-3-large"  # must match ingest.py
 DB_PATH = "chroma_db"
 COLLECTION_NAME = "canvassian"
 N_RESULTS = 6                  # chunks returned per search
 MAX_ROUNDS = 6                 # safety valve for the agent loop
+RESULTS_DIR = Path("results")  # every run is saved here as a JSON file
 
 client = OpenAI()  # reads OPENAI_API_KEY from the environment
 
@@ -228,15 +231,38 @@ def write_report(findings: dict) -> str:
     return response.choices[0].message.content
 
 
+# ---------- Saving and loading results ----------
+def save_run(findings: dict, report: str) -> None:
+    """Save one run (model, time, findings, report) as its own JSON file."""
+    RESULTS_DIR.mkdir(exist_ok=True)
+    now = datetime.now()
+    run = {
+        "model": MODEL,
+        "time": now.strftime("%Y-%m-%d %H:%M"),
+        "findings": findings,
+        "report": report,
+    }
+    path = RESULTS_DIR / f"{now.strftime('%Y%m%d_%H%M%S')}_{MODEL}.json"
+    path.write_text(json.dumps(run, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def list_runs() -> list:
+    """Saved run files, newest first."""
+    if not RESULTS_DIR.exists():
+        return []
+    return sorted(RESULTS_DIR.glob("*.json"), reverse=True)
+
+
 # ---------- Streamlit interface ----------
 st.set_page_config(page_title="Canvassian Due Diligence", page_icon="⚖️")
 st.title("Canvassian Due Diligence")
 st.write(
     "An AI agent searches the evidence for each critical risk, "
-    "then drafts a report for the Board."
+    "then drafts a report for the Board. Each run is saved, so past "
+    "reports can be viewed again without calling the API."
 )
 
-if st.button("Run due diligence", type="primary"):
+if st.button(f"Run new due diligence ({MODEL})", type="primary"):
     findings = {}
     for topic, task in TOPICS.items():
         with st.status(f"Investigating: {topic}", expanded=False) as status:
@@ -245,18 +271,29 @@ if st.button("Run due diligence", type="primary"):
 
     with st.spinner("Writing the Board report..."):
         report = write_report(findings)
-    st.session_state["findings"] = findings
-    st.session_state["report"] = report
+    save_run(findings, report)
+    st.success("Run saved.")
 
-if "report" in st.session_state:
+runs = list_runs()
+if runs:
+    labels = {}
+    for path in runs:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        labels[f"{data['time']}  ({data['model']})"] = data
+    choice = st.selectbox("Saved runs (newest first)", list(labels.keys()))
+    run = labels[choice]
+
     st.header("Board report")
-    st.markdown(st.session_state["report"])
+    st.caption(f"Generated {run['time']} with {run['model']}")
+    st.markdown(run["report"])
     st.download_button(
         "Download report (.md)",
-        st.session_state["report"],
-        file_name="canvassian_due_diligence_report.md",
+        run["report"],
+        file_name=f"canvassian_report_{run['model']}.md",
     )
     with st.expander("Agent findings by topic"):
-        for topic, result in st.session_state["findings"].items():
+        for topic, result in run["findings"].items():
             st.subheader(topic)
             st.markdown(result)
+else:
+    st.info("No saved runs yet. Click the button above to run the review.")

@@ -1,0 +1,92 @@
+]633;E;for d in lab2-starter-main/*/;ddb0a111-a5f1-492e-934b-5f24530b88ef]633;Clab2-starter-main/board_papers/ 50
+lab2-starter-main/contracts/ 100
+lab2-starter-main/emails/ 600
+
+===== lab2-starter-main/board_papers/Board_Meeting_Agenda_Canvassian_15_October_2023_9.txt
+---
+### CANVASSIAN PTY LTD
+#### Board Meeting - Agenda Paper
+
+**Date:** 15 October 2023  
+**Prepared by:** Maria Dawson, Corporate Secretary
+
+#### 1. Introduction
+This board paper outlines the regular corporate reporting requirements and provides an update on the status of the potential acquisition deal involving Canvassian Pty Ltd.
+
+#### 2. Regular Reporting
+
+##### a) Financial Performance
+**Q3 Financial Overview:**
+- **Revenue:** $20 million (5% increase from Q2)
+- **Operating Expenses:** $14 million (3% increase from Q2)
+- **Net Profit:** $6 million (10% increase from Q2)
+- **Key Drivers:** Strong performance in software subscriptions from major clients, particularly Paywise and Alphabear.
+
+##### b) Operational Metrics
+**Client Base:**
+- **Major Clients:** The company serves 5 major clients (Paywise, Alphabear, Bravocat, Charlemont, Deltaforce, and Echona), contributing to 60% of the revenue.
+- **Minor Clients:** Hundreds of minor clients contributing to the remaining 40% of revenue.
+
+**Product Development:**
+- Release of new software updates and features enhanced user experience.
+- Investments in R&D have been fruitful, with several innovations in our AI product lines.
+
+##### c) Human Resources
+- **Employee Strength:** 450 employees.
+
+===== lab2-starter-main/contracts/Canvassian_Bravocat_Contract_Agreement_2023_3.txt
+**CONTRACT AGREEMENT**
+
+**This Agreement** is made and entered into as of this 15th day of March, 2023, by and between:
+
+**1. Canvassian Pty Ltd**
+   Address: 101 Innovation Drive, Sydney, NSW, Australia 2000
+   ABN: 12 345 678 910
+   
+   (Hereinafter referred to as "Canvassian")
+
+AND
+
+**2. Bravocat**
+   Address: 55 Market Street, Melbourne, VIC, Australia 3000
+   ABN: 98 765 432 109
+   
+   (Hereinafter referred to as "Bravocat")
+
+**WHEREAS**, Canvassian is a software company engaged in the business of providing technology solutions and consulting services;
+
+**WHEREAS**, Bravocat desires to engage Canvassian to provide certain software development services as outlined in this Agreement;
+
+**NOW, THEREFORE**, in consideration of the mutual promises and covenants contained herein, the parties agree as follows:
+
+**1. Scope of Services**  
+Canvassian agrees to provide the following services to Bravocat:
+   - Development and customization of software applications
+   - Ongoing technical support and maintenance
+   - Consultation regarding software integration and implementation
+
+
+===== lab2-starter-main/emails/Account_Security_Important_Update_405.txt
+Subject: Important Update Regarding Your Account
+
+Dear Valued Customer,
+
+We hope this message finds you well! 
+
+We are reaching out to inform you that there has been unusual activity detected on your account. To ensure your security, we kindly ask you to verify your account information at your earliest convenience. Please click the link below to start the verification process:
+
+[Click here to verify your account](#)
+
+Failure to verify your account may result in temporary suspension. Rest assured, we take your privacy very seriously and will never share your information with third parties.
+
+Thank you for your prompt attention to this matter.
+
+Best regards,
+
+Avery Thomson  
+Account Security Team  
+Secure Bank Corp  
+Phone: 1-800-555-0199  
+Email: support@securebankcorp.com  
+
+*This email was sent to you as part of our commitment to keeping your account secure. If you wish to unsubscribe from future notifications, please reply with "unsubscribe" in the subject line.*
